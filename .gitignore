@@ -1,0 +1,13 @@
+.venv/
+.env
+.env.local
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+data/runtime/*
+!data/runtime/.gitkeep
+data/harness/
+.streamlit/secrets.toml

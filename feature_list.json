@@ -1,0 +1,45 @@
+{
+  "project": "Bright Path Scheduling",
+  "updated_at": "2026-09-16",
+  "allowed_statuses": ["not_started", "in_progress", "blocked", "passing"],
+  "features": [
+    {
+      "id": "SETUP-001",
+      "priority": 0,
+      "area": "foundation",
+      "title": "Project harness and runnable service foundation",
+      "user_visible_behavior": "The API and Streamlit shell can be set up, verified, started, inspected, and stopped through one PowerShell entry point.",
+      "status": "passing",
+      "verification": "Run init.ps1 Setup, Verify, Start, Status, and Stop; confirm both health endpoints respond and source files match their supplied content.",
+      "evidence": [
+        "init.ps1 -Action Setup completed successfully with the locked uv environment.",
+        "init.ps1 -Action Verify passed Ruff and pytest (1 test).",
+        "init.ps1 -Action Start made the API and Streamlit health endpoints return HTTP 200.",
+        "The three files in data/source are byte-for-byte identical to the supplied originals."
+      ],
+      "notes": "Foundation only; no scheduling feature behavior is included."
+    },
+    {
+      "id": "MVP-001",
+      "priority": 1,
+      "area": "scheduling",
+      "title": "Safe lesson rescheduling",
+      "user_visible_behavior": "A receptionist can move a lesson safely and tutors can see the current revised schedule.",
+      "status": "not_started",
+      "verification": "Defined in the gated implementation plan and implemented in later phases.",
+      "evidence": [],
+      "notes": "This is the single assessment feature."
+    },
+    {
+      "id": "MVP-002",
+      "priority": 2,
+      "area": "conflicts",
+      "title": "Conflict review",
+      "user_visible_behavior": "Owners and receptionists can review historical and actionable schedule conflicts.",
+      "status": "not_started",
+      "verification": "Post-assessment phase only.",
+      "evidence": [],
+      "notes": "Do not start before explicit approval after the assessment release."
+    }
+  ]
+}
