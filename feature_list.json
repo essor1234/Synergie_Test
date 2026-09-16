@@ -25,15 +25,17 @@
       "area": "scheduling",
       "title": "Role-aware lesson management",
       "user_visible_behavior": "Owners can inspect the center schedule, receptionists can manage lessons safely, and tutors can see only their own current lessons.",
-      "status": "in_progress",
+      "status": "passing",
       "verification": "Exercise owner, receptionist, and tutor API access; create, update, and soft-delete a lesson; verify stale and unsafe writes are rejected; verify every mutation records history.",
       "evidence": [
         "Phase 1 seed preview maps all CSV fields and rejects invalid input before database creation.",
         "Phase 1 tests preserve 34 raw rows and create 33 lessons with 34 participants.",
         "Phase 2 service and API tests cover role visibility, CRUD, revision history, stale edits, validation, privacy, and transaction rollback.",
-        "The complete verification suite passes 41 tests."
+        "The complete verification suite passes 44 tests, including role-specific Streamlit navigation and API-client behavior.",
+        "A clean-start rehearsal imported 34 raw rows into 33 lessons, started both services, moved L034 to a valid back-to-back slot, recorded its revision, and showed the change only in tutor T1's schedule.",
+        "Rendered desktop and narrow-width reviews showed responsive navigation, complete lesson data, readable forms, and no browser console errors."
       ],
-      "notes": "The backend workflow is complete. Responsive Streamlit behavior and final end-to-end rehearsal remain before this feature can be marked passing."
+      "notes": "Assessment MVP complete. Production authentication, push/read acknowledgement, messaging, billing, and two-way spreadsheet synchronization remain deferred."
     }
   ]
 }

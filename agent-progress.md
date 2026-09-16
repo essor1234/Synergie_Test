@@ -12,6 +12,9 @@
 - Owners and receptionists can read the center schedule; tutors are restricted to their own lessons.
 - Receptionists can create, update, and soft-delete lessons with version checks and revision history.
 - Unsafe mutations are rejected immediately; there is no separate conflict-review subsystem.
+- Phase 3 responsive Streamlit views are complete for owner, receptionist, and tutor roles.
+- Phase 4 clean-start and end-to-end release verification are complete.
+- `MVP-001` is passing.
 
 ## Project locations
 
@@ -33,7 +36,7 @@ Set-Location -LiteralPath 'D:\[Test]_SynergieGlobal\SynergieProject'
 
 ## Next priority
 
-Implement Phase 3: the responsive role-aware Streamlit interface for viewing data and receptionist lesson CRUD.
+No assessment work remains. Keep deferred production work out of scope unless it is separately approved.
 
 ## Known blockers
 
@@ -42,5 +45,5 @@ Implement Phase 3: the responsive role-aware Streamlit interface for viewing dat
 ## Latest session
 
 - Date: 2026-09-16
-- Work: Completed Phase 2 lesson service and API implementation.
-- Evidence: Ruff passed; pytest passed (41 tests), including role privacy, CRUD, guardrails, history, stale writes, and rollback.
+- Work: Completed the role-aware lesson-management MVP and release documentation.
+- Evidence: Clean setup passed; Ruff passed; pytest passed (44 tests); API and UI health returned 200; the L034 edit/history/tutor-visibility rehearsal passed; desktop and narrow rendered reviews passed with no browser errors.

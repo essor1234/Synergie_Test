@@ -38,3 +38,15 @@ The owner did say that there are cases that students book two places at once. Wh
 - These checks are immediate safeguards inside lesson mutations. There is no Conflict class, conflict-scanning endpoint, or conflict-review page in this MVP.
 - Imported historical violations remain visible. The system does not silently repair source evidence.
 - Deletion is soft: the lesson disappears from current schedules while its record and revision history remain auditable.
+
+# Implementation decisions
+
+- Keep OOP focused on domain records, `LessonService`, and `ApiClient`; do not add repository or unit-of-work abstractions for this MVP.
+- Use full editable lesson payloads for updates plus `expected_version`. This keeps the form/API contract explicit and prevents stale overwrites.
+- Reject a bulk schedule-replacement endpoint. A bulk overwrite would make per-lesson authorization, version checks, and revision evidence ambiguous.
+- Treat “current” as the latest committed data on page refresh. This release does not claim WebSocket delivery, notifications, or tutor read acknowledgement.
+- Preserve phone values as text and expose role-filtered reference data in the internal demo UI. Lesson schedule rows never embed tutor phone numbers.
+
+# Reflection
+
+The smallest useful workflow proved larger than rescheduling alone because users needed to inspect the imported data and receptionists needed normal lesson maintenance. Keeping one `Lesson` concept, one service, and transaction-backed revisions delivered that workflow without turning the assessment into a general school-management platform. The strongest tradeoff is Streamlit: it made a responsive internal tool possible quickly, but a production scheduling experience would likely benefit from richer calendar interactions and push delivery. The source-preserving import and optimistic versions are worth retaining in any later architecture.
