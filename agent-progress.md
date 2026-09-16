@@ -5,7 +5,10 @@
 - Phase 0 is complete: the project can be set up, verified, started, inspected, and stopped through `init.ps1`.
 - The FastAPI and Streamlit shells are healthy on ports 8000 and 8501.
 - The supplied brief and two CSV files are preserved byte-for-byte in `data/source`.
-- No scheduling feature behavior is implemented yet.
+- Phase 1 domain models and the preview/apply SQLite seed importer are complete.
+- The seed preserves 34 raw lesson rows and creates 33 lessons with 34 participants.
+- `L009` and `L010` map to one two-student lesson only through `group_resolutions.json`.
+- Scheduling conflict and rescheduling behavior are not implemented yet.
 
 ## Project locations
 
@@ -27,7 +30,7 @@ Set-Location -LiteralPath 'D:\[Test]_SynergieGlobal\SynergieProject'
 
 ## Next priority
 
-Wait for explicit approval, then implement Phase 1 domain models and source-preserving seed data.
+Wait for explicit approval, then implement Phase 2 conflict rules and safe scheduling service behavior.
 
 ## Known blockers
 
@@ -36,5 +39,5 @@ Wait for explicit approval, then implement Phase 1 domain models and source-pres
 ## Latest session
 
 - Date: 2026-09-16
-- Work: Completed Phase 0 repository foundation.
-- Evidence: Ruff passed; pytest passed (1 test); API and Streamlit health checks returned HTTP 200; both harness-owned services stopped cleanly; source files matched their originals exactly.
+- Work: Completed corrected Phase 1 domain and seed-data implementation.
+- Evidence: Ruff passed; pytest passed (19 tests); preview and apply totals matched; repeated apply left the database hash unchanged; supplied source hashes remained unchanged.

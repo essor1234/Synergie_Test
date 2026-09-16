@@ -1,0 +1,4 @@
+data/source/README.txt text eol=lf
+data/source/tutors.csv text eol=lf
+data/source/lessons_export.csv text eol=lf
+data/source/group_resolutions.json text eol=lf

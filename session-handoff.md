@@ -7,14 +7,17 @@
 - Streamlit renders the Bright Path foundation page and health endpoint on port 8501.
 - Local clean-code and clean-architecture skills pass package validation.
 - Source evidence in `data/source` matches the supplied files byte-for-byte.
+- Domain models cover users, tutors, students, rooms, lessons, statuses, and revisions.
+- Seed preview validates every CSV field, relationship, timestamp, status, and cancellation rule before SQLite is opened.
+- Seed apply stores immutable raw rows and the resolved operational schedule; identical re-imports are no-ops.
 
 ## Current work
 
-- Phase 0 / `SETUP-001` is complete. Later phases have not started.
+- Phase 0 and corrected Phase 1 are complete. `MVP-001` remains in progress.
 
 ## Next action
 
-After explicit approval, begin Phase 1: domain models, SQLite schema, and preview/apply seed importer.
+After explicit approval, begin Phase 2: conflict rules, transactional rescheduling, version checks, and revision history.
 
 ## Blockers
 

@@ -1,0 +1,8 @@
+{
+  "groups": [
+    {
+      "canonical_lesson_id": "L009",
+      "source_lesson_ids": ["L009", "L010"]
+    }
+  ]
+}

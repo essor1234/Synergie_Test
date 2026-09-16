@@ -56,3 +56,54 @@
 - Minimum score: 80/100
 - Hard gates: WCAG AA, visible focus, keyboard/touch completion, required dynamic states, reduced motion, clean render
 <!-- DESIGN-DIRECTOR:END -->
+
+## Core domain model
+
+```mermaid
+classDiagram
+    class User {
+        +id: str
+        +name: str
+        +role: str
+        +tutor_id: str?
+    }
+    class Tutor {
+        +id: str
+        +name: str
+        +subject: str
+        +phone: str
+    }
+    class Student {
+        +id: str
+        +name: str
+    }
+    class Room {
+        +id: str
+    }
+    class Lesson {
+        +id: str
+        +starts_at: datetime
+        +duration_minutes: int
+        +status: LessonStatus
+        +cancelled_at: datetime?
+        +note: str?
+        +version: int
+        +ends_at(): datetime
+        +reschedule()
+    }
+    class LessonRevision {
+        +lesson_id: str
+        +before: str
+        +after: str
+        +changed_at: datetime
+        +changed_by: str
+        +reason: str
+    }
+    User --> Tutor : optional profile
+    Lesson "*" --> "1" Tutor
+    Lesson "*" --> "1" Room
+    Lesson "*" --> "1..2" Student
+    Lesson "1" o-- "*" LessonRevision
+```
+
+SQLite stores the operational records and immutable raw import evidence. Internal student IDs are deterministic hashes derived from the exact source name; they are implementation identifiers, not claimed source fields. Only the three observed room IDs are seeded.

@@ -27,3 +27,13 @@ They'd need a system that
 The owner did say that there are cases that students book two places at once. What book two places at once even mean?? ---> Is it book 2 classes(Teach + Room) at the same time?
 
 # Extra Notes
+
+# Phase 1 data decisions
+
+- Every column in `tutors.csv` and `lessons_export.csv` has an explicit import destination.
+- Original CSV values are retained in immutable raw tables. Operational empty `cancelled_at` and `note` values become `None`.
+- Lesson start times use `Asia/Bangkok`; every stored lesson and cancellation timestamp includes timezone information.
+- `L009` and `L010` remain separate raw rows and map to one two-student operational lesson only because `group_resolutions.json` declares that resolution.
+- Student IDs are deterministic internal hashes of the exact source names. They are not presented as fields supplied by the spreadsheet.
+- Only observed rooms `R1`, `R2`, and `R3` are seeded.
+- Tutor phone values are stored exactly as text but remain outside the assessment API and UI.

@@ -25,10 +25,13 @@
       "area": "scheduling",
       "title": "Safe lesson rescheduling",
       "user_visible_behavior": "A receptionist can move a lesson safely and tutors can see the current revised schedule.",
-      "status": "not_started",
+      "status": "in_progress",
       "verification": "Defined in the gated implementation plan and implemented in later phases.",
-      "evidence": [],
-      "notes": "This is the single assessment feature."
+      "evidence": [
+        "Phase 1 seed preview maps all CSV fields and rejects invalid input before database creation.",
+        "Phase 1 tests preserve 34 raw rows and create 33 lessons with 34 participants."
+      ],
+      "notes": "This is the single assessment feature. Phase 1 data foundations pass; scheduling rules and the end-to-end workflow remain incomplete."
     },
     {
       "id": "MVP-002",
