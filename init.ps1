@@ -57,6 +57,33 @@ function Require-ProjectPython {
     }
 }
 
+function Start-HarnessProcess {
+    param([string]$ServiceName)
+
+    $startInfo = [System.Diagnostics.ProcessStartInfo]::new()
+    $startInfo.FileName = $PythonExecutable
+    $startInfo.Arguments = '"{0}" {1}' -f $HarnessServiceScript, $ServiceName
+    $startInfo.WorkingDirectory = $ProjectRoot
+    $startInfo.UseShellExecute = $false
+    $startInfo.CreateNoWindow = $true
+    $startInfo.WindowStyle = [System.Diagnostics.ProcessWindowStyle]::Hidden
+
+    Write-Host ("Launching {0} service..." -f $ServiceName)
+    try {
+        $process = [System.Diagnostics.Process]::Start($startInfo)
+    }
+    catch {
+        throw (
+            "Could not launch {0} with project Python at '{1}': {2}" -f
+            $ServiceName, $PythonExecutable, $_.Exception.Message
+        )
+    }
+    if ($null -eq $process) {
+        throw "Could not launch $ServiceName because the process API returned no process."
+    }
+    return $process
+}
+
 function Get-ListeningProcessId {
     param([int]$Port)
     try {
@@ -125,9 +152,7 @@ function Invoke-Start {
     $started = @()
     try {
         foreach ($service in $Services) {
-            $process = Start-Process -FilePath $PythonExecutable `
-                -ArgumentList @($HarnessServiceScript, $service.Name) `
-                -WindowStyle Hidden -PassThru
+            $process = Start-HarnessProcess $service.Name
             if (-not (Wait-ForHealth $service.HealthUrl)) {
                 throw "$($service.Name) did not become healthy."
             }
