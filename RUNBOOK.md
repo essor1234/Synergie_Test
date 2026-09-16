@@ -44,7 +44,9 @@ From the project root, use these commands in order:
 
 Open `http://127.0.0.1:8501` for the application. The FastAPI health endpoint is `http://127.0.0.1:8000/health`, and interactive API documentation is available at `http://127.0.0.1:8000/docs`.
 
-Use these commands while or after the application is running:
+`Start` stays attached to the running application and keeps both local URLs visible in the terminal. Press Ctrl+C in that terminal to stop the API and UI cleanly.
+
+Use these commands from a second terminal while the application is running, or after it stops:
 
 ```powershell
 .\init.ps1 -Action Status
@@ -55,7 +57,7 @@ Use these commands while or after the application is running:
 | --- | --- |
 | `Setup` | Synchronizes the locked Python environment with `uv sync --all-extras`. It safely renames a lone `.env` file to `.env.local`. |
 | `Verify` | Runs Ruff and the full pytest suite. |
-| `Start` | Ensures ports are free, applies the idempotent source seed, starts API and UI processes, and waits for both health checks. |
+| `Start` | Ensures ports are free, applies the idempotent source seed, starts API and UI processes, waits for both health checks, displays the local URLs, and remains attached until Ctrl+C. |
 | `Status` | Reports each configured port and whether the harness owns any recorded processes. |
 | `Stop` | Stops only processes whose process ID and start time match the harness state record. |
 

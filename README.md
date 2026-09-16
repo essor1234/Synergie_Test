@@ -15,7 +15,9 @@ Set-Location -LiteralPath 'D:\[Test]_SynergieGlobal\SynergieProject'
 
 Open the application at `http://127.0.0.1:8501`. The API is available at `http://127.0.0.1:8000`; its generated documentation is at `http://127.0.0.1:8000/docs`.
 
-The start action validates and applies the seed idempotently before starting both services. Inspect or stop them with:
+`Start` prints both local URLs and remains attached while the application is running. Keep that terminal open and press Ctrl+C to stop both services cleanly.
+
+The start action validates and applies the seed idempotently before starting both services. From a second terminal, inspect or stop them with:
 
 ```powershell
 .\init.ps1 -Action Status

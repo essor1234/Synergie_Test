@@ -125,6 +125,20 @@ function Get-OwnedProcess {
     catch { return $null }
 }
 
+function Stop-HarnessRecords {
+    param([object[]]$Records)
+
+    for ($index = $Records.Count - 1; $index -ge 0; $index--) {
+        $record = $Records[$index]
+        $process = Get-OwnedProcess $record
+        if ($null -ne $process) {
+            Stop-Process -Id $process.Id -ErrorAction SilentlyContinue
+            Write-Host ("Stopped {0} process {1}." -f $record.name, $process.Id)
+        }
+    }
+    Remove-Item -LiteralPath $ProcessStateFile -Force -ErrorAction SilentlyContinue
+}
+
 function Invoke-Setup {
     Move-LegacyEnvironmentFile
     Invoke-ConfiguredCommand $SetupCommand
@@ -165,16 +179,32 @@ function Invoke-Start {
         }
         [ordered]@{ project_root = $ProjectRoot; processes = $started } |
             ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $ProcessStateFile -Encoding UTF8
-        Write-Host 'API and Streamlit services are running.' -ForegroundColor Green
     }
     catch {
-        foreach ($record in $started) {
-            $process = Get-OwnedProcess $record
-            if ($null -ne $process) {
-                Stop-Process -Id $process.Id -ErrorAction SilentlyContinue
+        Stop-HarnessRecords $started
+        throw
+    }
+
+    Write-Host ''
+    Write-Host 'Bright Path is running.' -ForegroundColor Green
+    Write-Host 'Application:       http://127.0.0.1:8501' -ForegroundColor Cyan
+    Write-Host 'API documentation: http://127.0.0.1:8000/docs' -ForegroundColor Cyan
+    Write-Host 'Press Ctrl+C to stop Bright Path.' -ForegroundColor Yellow
+
+    try {
+        while ($true) {
+            Start-Sleep -Seconds 1
+            foreach ($record in $started) {
+                if ($null -eq (Get-OwnedProcess $record)) {
+                    throw "$($record.name) service stopped unexpectedly."
+                }
             }
         }
-        throw
+    }
+    finally {
+        Write-Host ''
+        Write-Host 'Stopping Bright Path...' -ForegroundColor Yellow
+        Stop-HarnessRecords $started
     }
 }
 
@@ -191,16 +221,7 @@ function Invoke-Status {
 function Invoke-Stop {
     $state = Get-State
     if ($null -eq $state) { Write-Host 'Nothing to stop.'; return }
-    $records = @($state.processes)
-    for ($index = $records.Count - 1; $index -ge 0; $index--) {
-        $record = $records[$index]
-        $process = Get-OwnedProcess $record
-        if ($null -ne $process) {
-            Stop-Process -Id $process.Id
-            Write-Host ("Stopped {0} process {1}." -f $record.name, $process.Id)
-        }
-    }
-    Remove-Item -LiteralPath $ProcessStateFile -Force -ErrorAction SilentlyContinue
+    Stop-HarnessRecords @($state.processes)
 }
 
 try {
