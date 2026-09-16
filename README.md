@@ -22,6 +22,8 @@ The start action validates and applies the seed idempotently before starting bot
 .\init.ps1 -Action Stop
 ```
 
+For setup, recovery, reset, process-safety, and handoff guidance, see [RUNBOOK.md](RUNBOOK.md).
+
 ## Demo workflow
 
 1. Open the Streamlit application and select **Owner** to inspect all current lessons, details, and revision history.
