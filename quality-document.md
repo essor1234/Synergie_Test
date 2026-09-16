@@ -2,7 +2,7 @@
 
 ## Product boundary
 
-The assessment release provides safe lesson rescheduling and visible tutor-schedule revisions. Conflict review is a separate post-assessment phase. Billing, payroll, curriculum, messaging integration, and two-way spreadsheet synchronization are excluded.
+The assessment release provides role-aware schedule viewing and receptionist lesson creation, editing, and soft deletion with revision history. Unsafe writes are rejected immediately. Billing, payroll, curriculum, messaging integration, schedule-analysis pages, and two-way spreadsheet synchronization are excluded.
 
 ## Required qualities
 

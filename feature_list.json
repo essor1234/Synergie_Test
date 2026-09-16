@@ -23,26 +23,17 @@
       "id": "MVP-001",
       "priority": 1,
       "area": "scheduling",
-      "title": "Safe lesson rescheduling",
-      "user_visible_behavior": "A receptionist can move a lesson safely and tutors can see the current revised schedule.",
+      "title": "Role-aware lesson management",
+      "user_visible_behavior": "Owners can inspect the center schedule, receptionists can manage lessons safely, and tutors can see only their own current lessons.",
       "status": "in_progress",
-      "verification": "Defined in the gated implementation plan and implemented in later phases.",
+      "verification": "Exercise owner, receptionist, and tutor API access; create, update, and soft-delete a lesson; verify stale and unsafe writes are rejected; verify every mutation records history.",
       "evidence": [
         "Phase 1 seed preview maps all CSV fields and rejects invalid input before database creation.",
-        "Phase 1 tests preserve 34 raw rows and create 33 lessons with 34 participants."
+        "Phase 1 tests preserve 34 raw rows and create 33 lessons with 34 participants.",
+        "Phase 2 service and API tests cover role visibility, CRUD, revision history, stale edits, validation, privacy, and transaction rollback.",
+        "The complete verification suite passes 41 tests."
       ],
-      "notes": "This is the single assessment feature. Phase 1 data foundations pass; scheduling rules and the end-to-end workflow remain incomplete."
-    },
-    {
-      "id": "MVP-002",
-      "priority": 2,
-      "area": "conflicts",
-      "title": "Conflict review",
-      "user_visible_behavior": "Owners and receptionists can review historical and actionable schedule conflicts.",
-      "status": "not_started",
-      "verification": "Post-assessment phase only.",
-      "evidence": [],
-      "notes": "Do not start before explicit approval after the assessment release."
+      "notes": "The backend workflow is complete. Responsive Streamlit behavior and final end-to-end rehearsal remain before this feature can be marked passing."
     }
   ]
 }

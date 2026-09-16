@@ -10,14 +10,17 @@
 - Domain models cover users, tutors, students, rooms, lessons, statuses, and revisions.
 - Seed preview validates every CSV field, relationship, timestamp, status, and cancellation rule before SQLite is opened.
 - Seed apply stores immutable raw rows and the resolved operational schedule; identical re-imports are no-ops.
+- FastAPI exposes role-filtered schedules, reference data, lesson details, revision history, and receptionist-only create/update/soft-delete operations.
+- Lesson mutations use optimistic versions, atomic revisions, and inline business-rule validation.
+- Starting the harness applies the idempotent seed before launching the API and UI.
 
 ## Current work
 
-- Phase 0 and corrected Phase 1 are complete. `MVP-001` remains in progress.
+- Phases 0, 1, and 2 are complete. `MVP-001` remains in progress until the Streamlit interface and final rehearsal are complete.
 
 ## Next action
 
-After explicit approval, begin Phase 2: conflict rules, transactional rescheduling, version checks, and revision history.
+Build Phase 3: responsive owner, receptionist, and tutor views plus receptionist lesson CRUD.
 
 ## Blockers
 

@@ -10,6 +10,7 @@ $ErrorActionPreference = 'Stop'
 $ProjectRoot = $PSScriptRoot
 $SetupCommand = @('uv', 'sync', '--all-extras')
 $VerifyCommand = @('.venv\Scripts\python.exe', 'scripts\verify.py')
+$SeedCommand = @('.venv\Scripts\python.exe', 'scripts\seed_database.py', '--mode', 'apply')
 $Services = @(
     [ordered]@{ Name = 'api'; Port = 8000; HealthUrl = 'http://127.0.0.1:8000/health' },
     [ordered]@{ Name = 'ui'; Port = 8501; HealthUrl = 'http://127.0.0.1:8501/_stcore/health' }
@@ -108,6 +109,8 @@ function Invoke-Start {
         $owner = Get-ListeningProcessId ([int]$service.Port)
         if ($null -ne $owner) { throw "Port $($service.Port) is already used by process $owner." }
     }
+
+    Invoke-ConfiguredCommand $SeedCommand
 
     $started = @()
     try {

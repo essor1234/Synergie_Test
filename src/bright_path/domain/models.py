@@ -23,19 +23,28 @@ class LessonStatus(str, Enum):
     NO_SHOW = "no_show"
 
 
+class UserRole(str, Enum):
+    OWNER = "owner"
+    RECEPTIONIST = "receptionist"
+    TUTOR = "tutor"
+
+
 @dataclass(frozen=True, slots=True)
 class User:
     id: str
     name: str
-    role: str
+    role: UserRole
     tutor_id: str | None = None
 
     def __post_init__(self) -> None:
         _require_text(self.id, "user id")
         _require_text(self.name, "user name")
-        _require_text(self.role, "user role")
+        if not isinstance(self.role, UserRole):
+            raise ValueError("user role is unsupported")
         if self.tutor_id is not None:
             _require_text(self.tutor_id, "user tutor id")
+        if self.role is UserRole.TUTOR and self.tutor_id is None:
+            raise ValueError("tutor users require tutor_id")
 
 
 @dataclass(frozen=True, slots=True)
@@ -80,6 +89,7 @@ class Lesson:
     students: tuple[Student, ...]
     status: LessonStatus
     cancelled_at: datetime | None = None
+    deleted_at: datetime | None = None
     note: str | None = None
     version: int = 1
 
@@ -96,6 +106,8 @@ class Lesson:
             raise ValueError("lesson status is unsupported")
         if self.cancelled_at is not None:
             _require_aware(self.cancelled_at, "cancellation time")
+        if self.deleted_at is not None:
+            _require_aware(self.deleted_at, "deletion time")
         if self.status is LessonStatus.CANCELLED and self.cancelled_at is None:
             raise ValueError("cancelled lessons require cancelled_at")
         if self.status is not LessonStatus.CANCELLED and self.cancelled_at is not None:

@@ -11,8 +11,9 @@ They'd need a system that
 1. Simple to adapt with or without Mai (Cannot depends on one mid-manager for the whole system)
 2. Allow Owner can real-time checking the running of the whole system --> Need a summarize UI
 3. Real-time change + notificate for tutor if there is any sudden changes from the manager. --> a schedule???
-4. Can intergrate their current spreadsheet system + Zalo chat to software system.
-5.
+   ---> The current MVP validates changes while they are made; it does not include a separate conflict-review system.
+4. Can intergrate their current spreadsheet system + Zalo chat to software system smoothly.
+5. They'd need an audit system, or history change system, so the owner wont be suprise by changes
 
 # Questions
 
@@ -22,18 +23,18 @@ They'd need a system that
 2. During exam season, should exam-season double bookings (two students with one tutor) be formalized as explicit group lessons?
    ----> This gonna effect on how to design a Lesson. its not only support 1-1 but now as a group if needed.
 
-# Some catches that not clear right now
+# Some catches that not clear to me right now
 
 The owner did say that there are cases that students book two places at once. What book two places at once even mean?? ---> Is it book 2 classes(Teach + Room) at the same time?
 
 # Extra Notes
 
-# Phase 1 data decisions
+# Revised MVP scope
 
-- Every column in `tutors.csv` and `lessons_export.csv` has an explicit import destination.
-- Original CSV values are retained in immutable raw tables. Operational empty `cancelled_at` and `note` values become `None`.
-- Lesson start times use `Asia/Bangkok`; every stored lesson and cancellation timestamp includes timezone information.
-- `L009` and `L010` remain separate raw rows and map to one two-student operational lesson only because `group_resolutions.json` declares that resolution.
-- Student IDs are deterministic internal hashes of the exact source names. They are not presented as fields supplied by the spreadsheet.
-- Only observed rooms `R1`, `R2`, and `R3` are seeded.
-- Tutor phone values are stored exactly as text but remain outside the assessment API and UI.
+- Owners can read the complete current schedule, lesson details, revision history, and reference data.
+- Receptionists can create, read, update, and soft-delete lessons. Every update and deletion requires the current lesson version and records a revision.
+- Tutors can read only lessons assigned to their linked tutor profile, including those lessons' histories.
+- New lessons and scheduling changes are rejected when they overlap a tutor, room, or student; exceed six active lessons for a tutor in a day; fall on Monday; or use unsupported duration, status, or cancellation data.
+- These checks are immediate safeguards inside lesson mutations. There is no Conflict class, conflict-scanning endpoint, or conflict-review page in this MVP.
+- Imported historical violations remain visible. The system does not silently repair source evidence.
+- Deletion is soft: the lesson disappears from current schedules while its record and revision history remain auditable.

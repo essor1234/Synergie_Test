@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS lessons (
     room_id TEXT NOT NULL REFERENCES rooms(id),
     status TEXT NOT NULL CHECK (status IN ('booked', 'cancelled', 'no_show')),
     cancelled_at TEXT,
+    deleted_at TEXT,
     note TEXT,
     version INTEGER NOT NULL DEFAULT 1 CHECK (version >= 1),
     CHECK (
@@ -153,3 +154,8 @@ def connect_database(path: Path) -> sqlite3.Connection:
 
 def initialize_database(connection: sqlite3.Connection) -> None:
     connection.executescript(SCHEMA)
+    lesson_columns = {
+        row["name"] for row in connection.execute("PRAGMA table_info(lessons)").fetchall()
+    }
+    if "deleted_at" not in lesson_columns:
+        connection.execute("ALTER TABLE lessons ADD COLUMN deleted_at TEXT")

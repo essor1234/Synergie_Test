@@ -8,7 +8,10 @@
 - Phase 1 domain models and the preview/apply SQLite seed importer are complete.
 - The seed preserves 34 raw lesson rows and creates 33 lessons with 34 participants.
 - `L009` and `L010` map to one two-student lesson only through `group_resolutions.json`.
-- Scheduling conflict and rescheduling behavior are not implemented yet.
+- Phase 2 role-aware lesson services and FastAPI endpoints are complete.
+- Owners and receptionists can read the center schedule; tutors are restricted to their own lessons.
+- Receptionists can create, update, and soft-delete lessons with version checks and revision history.
+- Unsafe mutations are rejected immediately; there is no separate conflict-review subsystem.
 
 ## Project locations
 
@@ -30,7 +33,7 @@ Set-Location -LiteralPath 'D:\[Test]_SynergieGlobal\SynergieProject'
 
 ## Next priority
 
-Wait for explicit approval, then implement Phase 2 conflict rules and safe scheduling service behavior.
+Implement Phase 3: the responsive role-aware Streamlit interface for viewing data and receptionist lesson CRUD.
 
 ## Known blockers
 
@@ -39,5 +42,5 @@ Wait for explicit approval, then implement Phase 2 conflict rules and safe sched
 ## Latest session
 
 - Date: 2026-09-16
-- Work: Completed corrected Phase 1 domain and seed-data implementation.
-- Evidence: Ruff passed; pytest passed (19 tests); preview and apply totals matched; repeated apply left the database hash unchanged; supplied source hashes remained unchanged.
+- Work: Completed Phase 2 lesson service and API implementation.
+- Evidence: Ruff passed; pytest passed (41 tests), including role privacy, CRUD, guardrails, history, stale writes, and rollback.

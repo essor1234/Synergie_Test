@@ -10,7 +10,7 @@ Keep the application small and make dependencies point toward the scheduling rul
 ## Boundaries
 
 - `domain` contains plain Python models and must not import FastAPI, Streamlit, or SQLite.
-- `services` owns scheduling workflows and conflict rules.
+- `services` owns lesson workflows and inline mutation validation.
 - `storage` owns SQLite schema and queries.
 - `api` converts HTTP input and output around the services.
 - `ui` calls the public API and never reads SQLite directly.

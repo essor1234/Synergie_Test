@@ -4,10 +4,10 @@
 ## Context
 - Product: Bright Path tutoring-center scheduling and daily operations
 - Audience: owners, receptionists, managers, and tutors
-- Primary job: scan the current schedule, make safe changes, and recognize late revisions
+- Primary job: inspect current lesson data and let receptionists create, edit, or remove lessons safely
 - Surface: internal web application
 - Platform and stack: Streamlit UI backed by FastAPI
-- Page or flow: schedule list, lesson detail, and rescheduling form
+- Page or flow: schedule list, lesson detail, reference directories, and lesson CRUD forms
 
 ## Direction
 - Functional grammar: operations-console
@@ -23,10 +23,10 @@
 - Blend conflicts: none
 - Density: compact but not crowded, 2/5
 - Theme: light neutral foundation
-- Signature move: show current schedule state and exceptions with clear role-aware disclosure
+- Signature move: show the complete current schedule with role-appropriate actions beside the data
 
 ## Foundations
-- Semantic colors: blue for primary action, green for success, amber for late changes, red for conflicts, neutral colors for normal state
+- Semantic colors: blue for primary action, green for success, amber for changed data, red for destructive actions and errors, neutral colors for normal state
 - Typography: Streamlit system sans with a disciplined heading scale
 - Spacing: consistent medium spacing with compact schedule rows
 - Radius: Streamlit defaults; do not create competing radius systems
@@ -37,7 +37,7 @@
 
 ## Components and behavior
 - Navigation: stable sidebar with role-appropriate destinations
-- Primary content: chronological schedules, explicit changes, and actionable errors
+- Primary content: chronological schedules, complete lesson data, revision history, and actionable errors
 - Actions: one clear primary action per form
 - Required states: default, loading, empty, error, success, stale, and permission denied
 - Responsive behavior: stack controls and preserve reading order at narrow widths
