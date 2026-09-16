@@ -8,9 +8,11 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 $ProjectRoot = $PSScriptRoot
+$PythonExecutable = Join-Path $ProjectRoot '.venv\Scripts\python.exe'
+$HarnessServiceScript = Join-Path $ProjectRoot 'scripts\run_harness_service.py'
 $SetupCommand = @('uv', 'sync', '--all-extras')
-$VerifyCommand = @('.venv\Scripts\python.exe', 'scripts\verify.py')
-$SeedCommand = @('.venv\Scripts\python.exe', 'scripts\seed_database.py', '--mode', 'apply')
+$VerifyCommand = @($PythonExecutable, (Join-Path $ProjectRoot 'scripts\verify.py'))
+$SeedCommand = @($PythonExecutable, (Join-Path $ProjectRoot 'scripts\seed_database.py'), '--mode', 'apply')
 $Services = @(
     [ordered]@{ Name = 'api'; Port = 8000; HealthUrl = 'http://127.0.0.1:8000/health' },
     [ordered]@{ Name = 'ui'; Port = 8501; HealthUrl = 'http://127.0.0.1:8501/_stcore/health' }
@@ -47,6 +49,12 @@ function Invoke-ConfiguredCommand {
     $arguments = @($Command | Select-Object -Skip 1)
     & $executable @arguments
     if ($LASTEXITCODE -ne 0) { throw "Command failed with exit code $LASTEXITCODE." }
+}
+
+function Require-ProjectPython {
+    if (-not (Test-Path -LiteralPath $PythonExecutable -PathType Leaf)) {
+        throw 'The project Python executable was not found. Run .\init.ps1 -Action Setup first.'
+    }
 }
 
 function Get-ListeningProcessId {
@@ -98,12 +106,14 @@ function Invoke-Setup {
 
 function Invoke-Verify {
     Move-LegacyEnvironmentFile
+    Require-ProjectPython
     Invoke-ConfiguredCommand $VerifyCommand
     Write-Host 'Verification complete.' -ForegroundColor Green
 }
 
 function Invoke-Start {
     Move-LegacyEnvironmentFile
+    Require-ProjectPython
     Ensure-HarnessDirectory
     foreach ($service in $Services) {
         $owner = Get-ListeningProcessId ([int]$service.Port)
@@ -115,8 +125,8 @@ function Invoke-Start {
     $started = @()
     try {
         foreach ($service in $Services) {
-            $process = Start-Process -FilePath '.\.venv\Scripts\python.exe' `
-                -ArgumentList @('scripts\run_harness_service.py', $service.Name) `
+            $process = Start-Process -FilePath $PythonExecutable `
+                -ArgumentList @($HarnessServiceScript, $service.Name) `
                 -WindowStyle Hidden -PassThru
             if (-not (Wait-ForHealth $service.HealthUrl)) {
                 throw "$($service.Name) did not become healthy."
